@@ -16,7 +16,7 @@ class SortAlgorythm
             arr[j + 1] = key;
         }
     
-    public int[] SortArray(int[] array, int leftIndex, int rightIndex)
+    public int[] QuickSort(int[] array, int leftIndex, int rightIndex)
     {
         var i = leftIndex;
         var j = rightIndex;

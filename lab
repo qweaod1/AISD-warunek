@@ -2,6 +2,38 @@ using System;
 
 class SortAlgorythm
 {
+        private string tekst;
+        private Random random = new Random();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            int count = (int)numericUpDown1.Value;
+
+            if (checkBox1.Checked)
+            {
+                int randomValue = random.Next(0, 2000000);
+                numericUpDown1.Value = randomValue;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                numericUpDown1.Enabled = true;
+                textBox4.Visible = true;
+            }
+            else if (!checkBox1.Checked)
+            {
+                numericUpDown1.Enabled = false;
+                textBox4.Visible = false;
+            }
+        }
+
     public static void InsertSort(int[] arr)
     {
         for (int i = 1; i < arr.Length; i++)

@@ -1,40 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows.Forms;
 
 class SortAlgorythm
 {
-        private string tekst;
-        private Random random = new Random();
+        private int[] numbers; // Tablica przechowująca liczby
+        private Stopwatch stopwatch; // Do mierzenia czasu wykonania
+        private Random random = new Random(); 
+
+        private CheckBox checkBoxGenerateNumbers;
+        private NumericUpDown numericUpDownMax;
+        private TextBox textBoxInput;
+        private TextBox textBoxOutput;
+        private Label labelTime;
+        private RadioButton radioButtonBubbleSort;
+        private RadioButton radioButtonSelectionSort;
+        private RadioButton radioButtonInsertionSort;
+        private RadioButton radioButtonMergeSort;
+        private RadioButton radioButtonQuickSort;
+        private Button GenerateButton;
+        private Button SortButton;
+        
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+         private void GenerateButton_Click(object sender, EventArgs e)
         {
-            int count = (int)numericUpDown1.Value;
-
-            if (checkBox1.Checked)
+            if (checkBoxGenerateNumbers.Checked)
             {
-                int randomValue = random.Next(0, 2000000);
-                numericUpDown1.Value = randomValue;
+                // Generowanie losowych liczb
+                Random random = new Random();
+                numbers = Enumerable.Range(1, (int)numericUpDownMax.Value).Select(_ => random.Next()).ToArray();
+            }
+            else
+            {
+                // Pobieranie liczb z textboxa i dzielenie ich na osobne liczby
+                numbers = textBoxInput.Text.Split(' ').Select(int.Parse).ToArray();
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void SortButton_Click(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            stopwatch = Stopwatch.StartNew(); // Rozpoczęcie mierzenia czasu
+
+            if (radioButtonBubbleSort.Checked)
             {
-                numericUpDown1.Enabled = true;
-                textBox4.Visible = true;
+                BubbleSort(numbers);
             }
-            else if (!checkBox1.Checked)
+            else if (radioButtonSelectionSort.Checked)
             {
-                numericUpDown1.Enabled = false;
-                textBox4.Visible = false;
+                SelectionSort(numbers);
             }
+            else if (radioButtonInsertionSort.Checked)
+            {
+                InsertionSort(numbers);
+            }
+            else if (radioButtonMergeSort.Checked)
+            {
+                MergeSort(numbers);
+            }
+            else if (radioButtonQuickSort.Checked)
+            {
+                QuickSort(numbers, 0, numbers.Length - 1);
+            }
+
+            stopwatch.Stop(); // Zakończenie mierzenia czasu
+
+            // Wyświetlenie posortowanych liczb
+            textBoxOutput.Text = string.Join(" ", numbers);
+
+            // Wyświetlenie czasu wykonania
+            labelTime.Text = $"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms";
         }
+
 
     public static void InsertSort(int[] arr)
     {
@@ -49,7 +90,7 @@ class SortAlgorythm
             }
             arr[j + 1] = key;
         }
-    
+    }
     public int[] QuickSort(int[] array, int leftIndex, int rightIndex)
     {
         var i = leftIndex;

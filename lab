@@ -26,9 +26,28 @@ class SortAlgorythm
         {
             InitializeComponent();
         }
+         private void InitializeComponents()
+            {
+                // Ustawienia dla checkBoxGenerateNumbers
+                checkBoxGenerateNumbers = new CheckBox();
+                checkBoxGenerateNumbers.Text = "Generate Random Numbers";
+                checkBoxGenerateNumbers.Location = new Point(10, 10);.
 
-         private void GenerateButton_Click(object sender, EventArgs e)
-        {
+                // Ustawienia dla numericUpDownMax
+                numericUpDownMax = new NumericUpDown();
+                numericUpDownMax.Minimum = 1;
+                numericUpDownMax.Maximum = 2000000;
+                numericUpDownMax.Location = new Point(10, 40);
+
+                // Ustawienia dla textBoxInput
+                textBoxInput = new TextBox();
+                textBoxInput.Multiline = true;
+                textBoxInput.Size = new Size(200, 50);
+                textBoxInput.Location = new Point(10, 70);
+             }
+
+          private void GenerateButton_Click(object sender, EventArgs e)
+            {
             if (checkBoxGenerateNumbers.Checked)
             {
                 // Generowanie losowych liczb

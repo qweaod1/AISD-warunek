@@ -19,31 +19,89 @@ class SortAlgorythm
         private RadioButton radioButtonInsertionSort;
         private RadioButton radioButtonMergeSort;
         private RadioButton radioButtonQuickSort;
-        private Button GenerateButton;
-        private Button SortButton;
+        private Button generateButton;
+        private Button sortButton;
         
-        public Form1()
+        public SortAlgorithmForm()
         {
             InitializeComponent();
         }
+        
          private void InitializeComponents()
             {
-                // Ustawienia dla checkBoxGenerateNumbers
+                // Inicjalizacja kontrolek
                 checkBoxGenerateNumbers = new CheckBox();
+                numericUpDownMax = new NumericUpDown();
+                textBoxInput = new TextBox();
+                textBoxOutput = new TextBox();
+                labelTime = new Label();
+                radioButtonBubbleSort = new RadioButton();
+                radioButtonSelectionSort = new RadioButton();
+                radioButtonInsertionSort = new RadioButton();
+                radioButtonMergeSort = new RadioButton();
+                radioButtonQuickSort = new RadioButton();
+                generateButton = new Button();
+                sortButton = new Button();
+
+                // Ustawienia dla checkBoxGenerateNumbers
                 checkBoxGenerateNumbers.Text = "Generate Random Numbers";
-                checkBoxGenerateNumbers.Location = new Point(10, 10);.
+                checkBoxGenerateNumbers.Location = new System.Drawing.Point(10, 10);
+                checkBoxGenerateNumbers.CheckedChanged += CheckBoxGenerateNumbers_CheckedChanged;
 
                 // Ustawienia dla numericUpDownMax
-                numericUpDownMax = new NumericUpDown();
                 numericUpDownMax.Minimum = 1;
                 numericUpDownMax.Maximum = 2000000;
-                numericUpDownMax.Location = new Point(10, 40);
+                numericUpDownMax.Location = new System.Drawing.Point(10, 40);
 
                 // Ustawienia dla textBoxInput
-                textBoxInput = new TextBox();
                 textBoxInput.Multiline = true;
-                textBoxInput.Size = new Size(200, 50);
-                textBoxInput.Location = new Point(10, 70);
+                textBoxInput.Size = new System.Drawing.Size(200, 50);
+                textBoxInput.Location = new System.Drawing.Point(10, 70);
+
+                textBoxOutput.Multiline = true;
+                textBoxOutput.Size = new System.Drawing.Size(200, 50);
+                textBoxOutput.Location = new System.Drawing.Point(10, 140);
+                textBoxOutput.ReadOnly = true;
+
+                labelTime.Text = "Czas wykonania: ";
+                labelTime.Location = new System.Drawing.Point(10, 200);
+
+                radioButtonBubbleSort.Text = "Bubble Sort";
+                radioButtonBubbleSort.Location = new System.Drawing.Point(10, 240);
+
+                radioButtonSelectionSort.Text = "Selection Sort";
+                radioButtonSelectionSort.Location = new System.Drawing.Point(10, 260);
+
+                radioButtonInsertionSort.Text = "Insertion Sort";
+                radioButtonInsertionSort.Location = new System.Drawing.Point(10, 280);
+
+                radioButtonMergeSort.Text = "Merge Sort";
+                radioButtonMergeSort.Location = new System.Drawing.Point(10, 300);
+
+                radioButtonQuickSort.Text = "Quick Sort";
+                radioButtonQuickSort.Location = new System.Drawing.Point(10, 320);
+
+                generateButton.Text = "Generate";
+                generateButton.Location = new System.Drawing.Point(10, 350);
+                generateButton.Click += GenerateButton_Click;
+
+                sortButton.Text = "Sort";
+                sortButton.Location = new System.Drawing.Point(100, 350);
+                sortButton.Click += SortButton_Click;
+
+                    Controls.Add(checkBoxGenerateNumbers);
+                    Controls.Add(numericUpDownMax);
+                    Controls.Add(textBoxInput);
+                    Controls.Add(textBoxOutput);
+                    Controls.Add(labelTime);
+                    Controls.Add(radioButtonBubbleSort);
+                    Controls.Add(radioButtonSelectionSort);
+                    Controls.Add(radioButtonInsertionSort);
+                    Controls.Add(radioButtonMergeSort);
+                    Controls.Add(radioButtonQuickSort);
+                    Controls.Add(generateButton);
+                    Controls.Add(sortButton);
+
              }
 
           private void GenerateButton_Click(object sender, EventArgs e)

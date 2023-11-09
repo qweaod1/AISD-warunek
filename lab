@@ -3,156 +3,207 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
-class SortAlgorythm
+class SortAlgorithmForm : Form
 {
-        private int[] numbers; // Tablica przechowująca liczby
-        private Stopwatch stopwatch; // Do mierzenia czasu wykonania
-        private Random random = new Random(); 
+    private int[] numbers; // Tablica przechowująca liczby
+    private Stopwatch stopwatch; // Do mierzenia czasu wykonania
+    private Random random = new Random();
 
-        private CheckBox checkBoxGenerateNumbers;
-        private NumericUpDown numericUpDownMax;
-        private TextBox textBoxInput;
-        private TextBox textBoxOutput;
-        private Label labelTime;
-        private RadioButton radioButtonBubbleSort;
-        private RadioButton radioButtonSelectionSort;
-        private RadioButton radioButtonInsertionSort;
-        private RadioButton radioButtonMergeSort;
-        private RadioButton radioButtonQuickSort;
-        private Button generateButton;
-        private Button sortButton;
-        
-        public SortAlgorithmForm()
+    private CheckBox checkBoxGenerateNumbers;
+    private NumericUpDown numericUpDownMax;
+    private TextBox textBoxInput;
+    private TextBox textBoxOutput;
+    private Label labelTime;
+    private RadioButton radioButtonBubbleSort;
+    private RadioButton radioButtonSelectionSort;
+    private RadioButton radioButtonInsertionSort;
+    private RadioButton radioButtonMergeSort;
+    private RadioButton radioButtonQuickSort;
+    private Button generateButton;
+    private Button sortButton;
+
+    public SortAlgorithmForm()
+    {
+        InitializeComponent();
+    }
+
+    private void InitializeComponent()
+    {
+        // Inicjalizacja kontrolek
+        checkBoxGenerateNumbers = new CheckBox();
+        numericUpDownMax = new NumericUpDown();
+        textBoxInput = new TextBox();
+        textBoxOutput = new TextBox();
+        labelTime = new Label();
+        radioButtonBubbleSort = new RadioButton();
+        radioButtonSelectionSort = new RadioButton();
+        radioButtonInsertionSort = new RadioButton();
+        radioButtonMergeSort = new RadioButton();
+        radioButtonQuickSort = new RadioButton();
+        generateButton = new Button();
+        sortButton = new Button();
+
+        // Konfiguracja kontrolek
+        checkBoxGenerateNumbers.Text = "Generate Random Numbers";
+        checkBoxGenerateNumbers.Location = new System.Drawing.Point(10, 10);
+        checkBoxGenerateNumbers.CheckedChanged += CheckBoxGenerateNumbers_CheckedChanged;
+
+        numericUpDownMax.Minimum = 1;
+        numericUpDownMax.Maximum = 2000000;
+        numericUpDownMax.Location = new System.Drawing.Point(10, 40);
+
+        textBoxInput.Multiline = true;
+        textBoxInput.Size = new System.Drawing.Size(200, 50);
+        textBoxInput.Location = new System.Drawing.Point(10, 70);
+
+        textBoxOutput.Multiline = true;
+        textBoxOutput.Size = new System.Drawing.Size(200, 50);
+        textBoxOutput.Location = new System.Drawing.Point(10, 140);
+        textBoxOutput.ReadOnly = true;
+
+        labelTime.Text = "Czas wykonania: ";
+        labelTime.Location = new System.Drawing.Point(10, 200);
+
+        radioButtonBubbleSort.Text = "Bubble Sort";
+        radioButtonBubbleSort.Location = new System.Drawing.Point(10, 240);
+
+        radioButtonSelectionSort.Text = "Selection Sort";
+        radioButtonSelectionSort.Location = new System.Drawing.Point(10, 260);
+
+        radioButtonInsertionSort.Text = "Insertion Sort";
+        radioButtonInsertionSort.Location = new System.Drawing.Point(10, 280);
+
+        radioButtonMergeSort.Text = "Merge Sort";
+        radioButtonMergeSort.Location = new System.Drawing.Point(10, 300);
+
+        radioButtonQuickSort.Text = "Quick Sort";
+        radioButtonQuickSort.Location = new System.Drawing.Point(10, 320);
+
+        generateButton.Text = "Generate";
+        generateButton.Location = new System.Drawing.Point(10, 350);
+        generateButton.Click += GenerateButton_Click;
+
+        sortButton.Text = "Sort";
+        sortButton.Location = new System.Drawing.Point(100, 350);
+        sortButton.Click += SortButton_Click;
+
+        // Dodanie kontrolek do formularza
+        Controls.Add(checkBoxGenerateNumbers);
+        Controls.Add(numericUpDownMax);
+        Controls.Add(textBoxInput);
+        Controls.Add(textBoxOutput);
+        Controls.Add(labelTime);
+        Controls.Add(radioButtonBubbleSort);
+        Controls.Add(radioButtonSelectionSort);
+        Controls.Add(radioButtonInsertionSort);
+        Controls.Add(radioButtonMergeSort);
+        Controls.Add(radioButtonQuickSort);
+        Controls.Add(generateButton);
+        Controls.Add(sortButton);
+    }
+
+    private void CheckBoxGenerateNumbers_CheckedChanged(object sender, EventArgs e)
+    {
+        // Zablokowanie lub odblokowanie TextBoxa do wprowadzania danych w zależności od zaznaczenia checkboxa
+        textBoxInput.ReadOnly = checkBoxGenerateNumbers.Checked;
+        numericUpDownMax.Enabled = checkBoxGenerateNumbers.Checked;
+    }
+
+    private void GenerateButton_Click(object sender, EventArgs e)
+    {
+        if (checkBoxGenerateNumbers.Checked)
         {
-            InitializeComponent();
+            // Generowanie losowych liczb
+            numbers = Enumerable.Range(1, (int)numericUpDownMax.Value).Select(_ => random.Next()).ToArray();
         }
-        
-         private void InitializeComponents()
-            {
-                // Inicjalizacja kontrolek
-                checkBoxGenerateNumbers = new CheckBox();
-                numericUpDownMax = new NumericUpDown();
-                textBoxInput = new TextBox();
-                textBoxOutput = new TextBox();
-                labelTime = new Label();
-                radioButtonBubbleSort = new RadioButton();
-                radioButtonSelectionSort = new RadioButton();
-                radioButtonInsertionSort = new RadioButton();
-                radioButtonMergeSort = new RadioButton();
-                radioButtonQuickSort = new RadioButton();
-                generateButton = new Button();
-                sortButton = new Button();
-
-                // Ustawienia dla checkBoxGenerateNumbers
-                checkBoxGenerateNumbers.Text = "Generate Random Numbers";
-                checkBoxGenerateNumbers.Location = new System.Drawing.Point(10, 10);
-                checkBoxGenerateNumbers.CheckedChanged += CheckBoxGenerateNumbers_CheckedChanged;
-
-                // Ustawienia dla numericUpDownMax
-                numericUpDownMax.Minimum = 1;
-                numericUpDownMax.Maximum = 2000000;
-                numericUpDownMax.Location = new System.Drawing.Point(10, 40);
-
-                // Ustawienia dla textBoxInput
-                textBoxInput.Multiline = true;
-                textBoxInput.Size = new System.Drawing.Size(200, 50);
-                textBoxInput.Location = new System.Drawing.Point(10, 70);
-
-                textBoxOutput.Multiline = true;
-                textBoxOutput.Size = new System.Drawing.Size(200, 50);
-                textBoxOutput.Location = new System.Drawing.Point(10, 140);
-                textBoxOutput.ReadOnly = true;
-
-                labelTime.Text = "Czas wykonania: ";
-                labelTime.Location = new System.Drawing.Point(10, 200);
-
-                radioButtonBubbleSort.Text = "Bubble Sort";
-                radioButtonBubbleSort.Location = new System.Drawing.Point(10, 240);
-
-                radioButtonSelectionSort.Text = "Selection Sort";
-                radioButtonSelectionSort.Location = new System.Drawing.Point(10, 260);
-
-                radioButtonInsertionSort.Text = "Insertion Sort";
-                radioButtonInsertionSort.Location = new System.Drawing.Point(10, 280);
-
-                radioButtonMergeSort.Text = "Merge Sort";
-                radioButtonMergeSort.Location = new System.Drawing.Point(10, 300);
-
-                radioButtonQuickSort.Text = "Quick Sort";
-                radioButtonQuickSort.Location = new System.Drawing.Point(10, 320);
-
-                generateButton.Text = "Generate";
-                generateButton.Location = new System.Drawing.Point(10, 350);
-                generateButton.Click += GenerateButton_Click;
-
-                sortButton.Text = "Sort";
-                sortButton.Location = new System.Drawing.Point(100, 350);
-                sortButton.Click += SortButton_Click;
-
-                    Controls.Add(checkBoxGenerateNumbers);
-                    Controls.Add(numericUpDownMax);
-                    Controls.Add(textBoxInput);
-                    Controls.Add(textBoxOutput);
-                    Controls.Add(labelTime);
-                    Controls.Add(radioButtonBubbleSort);
-                    Controls.Add(radioButtonSelectionSort);
-                    Controls.Add(radioButtonInsertionSort);
-                    Controls.Add(radioButtonMergeSort);
-                    Controls.Add(radioButtonQuickSort);
-                    Controls.Add(generateButton);
-                    Controls.Add(sortButton);
-
-             }
-
-          private void GenerateButton_Click(object sender, EventArgs e)
-            {
-            if (checkBoxGenerateNumbers.Checked)
-            {
-                // Generowanie losowych liczb
-                Random random = new Random();
-                numbers = Enumerable.Range(1, (int)numericUpDownMax.Value).Select(_ => random.Next()).ToArray();
-            }
-            else
-            {
-                // Pobieranie liczb z textboxa i dzielenie ich na osobne liczby
-                numbers = textBoxInput.Text.Split(' ').Select(int.Parse).ToArray();
-            }
-        }
-
-        private void SortButton_Click(object sender, EventArgs e)
+        else
         {
-            stopwatch = Stopwatch.StartNew(); // Rozpoczęcie mierzenia czasu
+            // Pobieranie liczb z textboxa i dzielenie ich na osobne liczby
+            numbers = textBoxInput.Text.Split(' ').Select(int.Parse).ToArray();
+        }
+    }
 
-            if (radioButtonBubbleSort.Checked)
-            {
-                BubbleSort(numbers);
-            }
-            else if (radioButtonSelectionSort.Checked)
-            {
-                SelectionSort(numbers);
-            }
-            else if (radioButtonInsertionSort.Checked)
-            {
-                InsertionSort(numbers);
-            }
-            else if (radioButtonMergeSort.Checked)
-            {
-                MergeSort(numbers);
-            }
-            else if (radioButtonQuickSort.Checked)
-            {
-                QuickSort(numbers, 0, numbers.Length - 1);
-            }
+    private void SortButton_Click(object sender, EventArgs e)
+    {
+        stopwatch = Stopwatch.StartNew(); // Rozpoczęcie mierzenia czasu
 
-            stopwatch.Stop(); // Zakończenie mierzenia czasu
-
-            // Wyświetlenie posortowanych liczb
-            textBoxOutput.Text = string.Join(" ", numbers);
-
-            // Wyświetlenie czasu wykonania
-            labelTime.Text = $"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms";
+        if (radioButtonBubbleSort.Checked)
+        {
+            BubbleSortAlgorithm(numbers);
+        }
+        else if (radioButtonSelectionSort.Checked)
+        {
+            SelectionSortAlgorithm(numbers);
+        }
+        else if (radioButtonInsertionSort.Checked)
+        {
+            InsertSort(numbers);
+        }
+        else if (radioButtonMergeSort.Checked)
+        {
+            MergeSortAlgorithm(numbers);
+        }
+        else if (radioButtonQuickSort.Checked)
+        {
+            QuickSortAlgorithm(numbers, 0, numbers.Length - 1);
         }
 
+        stopwatch.Stop(); // Zakończenie mierzenia czasu
+
+        // Wyświetlenie posortowanych liczb
+        textBoxOutput.Text = string.Join(" ", numbers);
+
+        // Wyświetlenie czasu wykonania
+        labelTime.Text = $"Czas wykonania: {stopwatch.ElapsedMilliseconds} ms";
+    }
+
+    // Implementacje pozostałych metod sortujących
+
+    public static void BubbleSortAlgorithm(int[] arr)
+    {
+        int n = arr.Length;
+        bool swapped;
+        for (int i = 0; i < n - 1; i++)
+        {
+            swapped = false;
+            for (int j = 0; j < n - 1 - i; j++)
+            {
+                if (arr[j] > arr[j + 1])
+                {
+                    // Zamiana miejscami elementu arr[j] i arr[j+1]
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+
+            if (!swapped)
+                break;
+        }
+    }
+
+    public static void SelectionSortAlgorithm(int[] arr)
+    {
+        int n = arr.Length;
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            int minIndex = i;
+
+            for (int j = i + 1; j < n; j++)
+            {
+                if (arr[j] < arr[minIndex])
+                {
+                    minIndex = j;
+                }
+            }
+
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
+        }
+    }
 
     public static void InsertSort(int[] arr)
     {
@@ -168,40 +219,26 @@ class SortAlgorythm
             arr[j + 1] = key;
         }
     }
-    public int[] QuickSort(int[] array, int leftIndex, int rightIndex)
+
+    public static void MergeSortAlgorithm(int[] arr)
     {
-        var i = leftIndex;
-        var j = rightIndex;
-        var pivot = array[leftIndex];
-        while (i <= j)
-        {
-            while (array[i] < pivot)
-            {
-                i++;
-            }
-        
-            while (array[j] > pivot)
-            {
-                j--;
-            }
-            if (i <= j)
-            {
-                int temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-                i++;
-                j--;
-            }
-        }
-    
-        if (leftIndex < j)
-            SortArray(array, leftIndex, j);
-        if (i < rightIndex)
-            SortArray(array, i, rightIndex);
-        return array;
+        MergeSort(arr, 0, arr.Length - 1);
     }
-    
-    public static void Merge(int[] arr, int left, int middle, int right)
+
+    private static void MergeSort(int[] arr, int left, int right)
+    {
+        if (left < right)
+        {
+            int middle = (left + right) / 2;
+
+            MergeSort(arr, left, middle);
+            MergeSort(arr, middle + 1, right);
+
+            Merge(arr, left, middle, right);
+        }
+    }
+
+    private static void Merge(int[] arr, int left, int middle, int right)
     {
         int n1 = middle - left + 1;
         int n2 = right - middle;
@@ -209,11 +246,11 @@ class SortAlgorythm
         int[] leftArray = new int[n1];
         int[] rightArray = new int[n2];
 
-        for (int i = 0; i < n1; i++)
-            leftArray[i] = arr[left + i];
+        for (int o = 0; o < n1; o++)
+            leftArray[o] = arr[left + o];
 
-        for (int j = 0; j < n2; j++)
-            rightArray[j] = arr[middle + 1 + j];
+        for (int v = 0; v < n2; v++)
+            rightArray[v] = arr[middle + 1 + v];
 
         int k = left;
         int i = 0, j = 0;
@@ -247,51 +284,58 @@ class SortAlgorythm
             k++;
         }
     }
-    public static void SelectionSortAlgorithm(int[] arr)
-        {
-            int n = arr.Length;
 
-            for (int i = 0; i < n - 1; i++)
-            {
-                int minIndex = i;
-
-                for (int j = i + 1; j < n; j++)
-                {
-                    if (arr[j] < arr[minIndex])
-                    {
-                        minIndex = j;
-                    }
-                }
-
-                int temp = arr[minIndex];
-                arr[minIndex] = arr[i];
-                arr[i] = temp;
-            }
-        }
-    public static void BubbleSortAlgorithm(int[] arr)
+    public void QuickSortAlgorithm(int[] array, int leftIndex, int rightIndex)
     {
-        int n = arr.Length;
-        bool swapped;
-        for (int i = 0; i < n - 1; i++)
+        if (leftIndex < rightIndex)
         {
-            swapped = false;
-            for (int j = 0; j < n - 1 - i; j++)
-            {
-                if (arr[j] > arr[j + 1])
-                {
-                    // Zamiana miejscami elementu arr[j] i arr[j+1]
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                    swapped = true;
-                }
-            }
+            int pivotIndex = Partition(array, leftIndex, rightIndex);
 
-            if (!swapped)
-                break;
+            if (pivotIndex > 1)
+            {
+                QuickSortAlgorithm(array, leftIndex, pivotIndex - 1);
+            }
+            if (pivotIndex + 1 < rightIndex)
+            {
+                QuickSortAlgorithm(array, pivotIndex + 1, rightIndex);
+            }
         }
     }
-    
 
-}
+    private int Partition(int[] array, int left, int right)
+    {
+        int pivot = array[left];
+        while (true)
+        {
+            while (array[left] < pivot)
+            {
+                left++;
+            }
 
+            while (array[right] > pivot)
+            {
+                right--;
+            }
+
+            if (left < right)
+            {
+                if (array[left] == array[right]) return right;
+
+                int temp = array[left];
+                array[left] = array[right];
+                array[right] = temp;
+            }
+            else
+            {
+                return right;
+            }
+        }
+    }
+
+    [STAThread]
+    static void Main()
+    {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new SortAlgorithmForm());
+    }

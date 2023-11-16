@@ -9,6 +9,7 @@ class SortAlgorithmForm : Form
     private Stopwatch stopwatch; // Do mierzenia czasu wykonania
     private Random random = new Random();
 
+    // Deklaracje elementów interfejsu użytkownika
     private CheckBox checkBoxGenerateNumbers;
     private NumericUpDown numericUpDownMax;
     private TextBox textBoxInput;
@@ -42,6 +43,7 @@ class SortAlgorithmForm : Form
             this.buttonQuickSort = new System.Windows.Forms.Button();
             this.generateButton = new System.Windows.Forms.Button();
 
+            // Ustawianie obsługi zdarzeń dla przycisków
             this.buttonBubbleSort.Click += new System.EventHandler(this.MethodButton_Click);
             this.buttonSelectionSort.Click += new System.EventHandler(this.MethodButton_Click);
             this.buttonInsertionSort.Click += new System.EventHandler(this.MethodButton_Click);

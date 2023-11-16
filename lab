@@ -103,11 +103,11 @@ class SortAlgorithmForm : Form
     }
 
     private void CheckBoxGenerateNumbers_CheckedChanged(object sender, EventArgs e)
-    {
-        // Zablokowanie lub odblokowanie TextBoxa do wprowadzania danych w zależności od zaznaczenia checkboxa
-        textBoxInput.ReadOnly = checkBoxGenerateNumbers.Checked;
-        numericUpDownMax.Enabled = checkBoxGenerateNumbers.Checked;
-    }
+        {
+            // Zablokowanie lub odblokowanie TextBoxa do wprowadzania danych
+            textBoxInput.ReadOnly = checkBoxGenerateNumbers.Checked;
+            numericUpDownMax.Enabled = checkBoxGenerateNumbers.Checked;
+        }
 
     private void GenerateButton_Click(object sender, EventArgs e)
     {

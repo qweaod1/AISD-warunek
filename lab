@@ -29,80 +29,139 @@ class SortAlgorithmForm : Form
 
 
     private void InitializeComponent()
-    {
-        // Inicjalizacja kontrolek
-        checkBoxGenerateNumbers = new CheckBox();
-        numericUpDownMax = new NumericUpDown();
-        textBoxInput = new TextBox();
-        textBoxOutput = new TextBox();
-        labelTime = new Label();
-        radioButtonBubbleSort = new RadioButton();
-        radioButtonSelectionSort = new RadioButton();
-        radioButtonInsertionSort = new RadioButton();
-        radioButtonMergeSort = new RadioButton();
-        radioButtonQuickSort = new RadioButton();
-        generateButton = new Button();
-        sortButton = new Button();
+        {
+            this.checkBoxGenerateNumbers = new System.Windows.Forms.CheckBox();
+            this.numericUpDownMax = new System.Windows.Forms.NumericUpDown();
+            this.textBoxInput = new System.Windows.Forms.TextBox();
+            this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.labelTime = new System.Windows.Forms.Label();
+            this.buttonBubbleSort = new System.Windows.Forms.Button();
+            this.buttonSelectionSort = new System.Windows.Forms.Button();
+            this.buttonInsertionSort = new System.Windows.Forms.Button();
+            this.buttonMergeSort = new System.Windows.Forms.Button();
+            this.buttonQuickSort = new System.Windows.Forms.Button();
+            this.generateButton = new System.Windows.Forms.Button();
 
-        // Konfiguracja kontrolek
-        checkBoxGenerateNumbers.Text = "Generate Random Numbers";
-        checkBoxGenerateNumbers.Location = new System.Drawing.Point(10, 10);
-        checkBoxGenerateNumbers.CheckedChanged += CheckBoxGenerateNumbers_CheckedChanged;
+            this.buttonBubbleSort.Click += new System.EventHandler(this.MethodButton_Click);
+            this.buttonSelectionSort.Click += new System.EventHandler(this.MethodButton_Click);
+            this.buttonInsertionSort.Click += new System.EventHandler(this.MethodButton_Click);
+            this.buttonMergeSort.Click += new System.EventHandler(this.MethodButton_Click);
+            this.buttonQuickSort.Click += new System.EventHandler(this.MethodButton_Click);
+            this.generateButton.Click += new System.EventHandler(this.MethodButton_Click);
 
-        numericUpDownMax.Minimum = 1;
-        numericUpDownMax.Maximum = 2000000;
-        numericUpDownMax.Location = new System.Drawing.Point(10, 40);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMax)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // checkBoxGenerateNumbers
+            // 
+            this.checkBoxGenerateNumbers.Location = new System.Drawing.Point(212, 26);
+            this.checkBoxGenerateNumbers.Name = "checkBoxGenerateNumbers";
+            this.checkBoxGenerateNumbers.Size = new System.Drawing.Size(104, 24);
+            this.checkBoxGenerateNumbers.TabIndex = 0;
+            this.checkBoxGenerateNumbers.Text = "Generate Random Numbers";
+            // 
+            // numericUpDownMax
+            // 
+            this.numericUpDownMax.Location = new System.Drawing.Point(322, 26);
+            this.numericUpDownMax.Maximum = new decimal(new int[] {2000000,0,0,0});
+            this.numericUpDownMax.Minimum = new decimal(new int[] {1,0,0,0});
+            this.numericUpDownMax.Name = "numericUpDownMax";
+            this.numericUpDownMax.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownMax.TabIndex = 1;
+            this.numericUpDownMax.Value = new decimal(new int[] {1,0,0,0});
+            // 
+            // textBoxInput
+            // 
+            this.textBoxInput.Location = new System.Drawing.Point(5, 26);
+            this.textBoxInput.Multiline = true;
+            this.textBoxInput.Name = "textBoxInput";
+            this.textBoxInput.Size = new System.Drawing.Size(200, 50);
+            this.textBoxInput.TabIndex = 2;
+            // 
+            // textBoxOutput
+            // 
+            this.textBoxOutput.Location = new System.Drawing.Point(10, 140);
+            this.textBoxOutput.Multiline = true;
+            this.textBoxOutput.Name = "textBoxOutput";
+            this.textBoxOutput.ReadOnly = true;
+            this.textBoxOutput.Size = new System.Drawing.Size(200, 50);
+            this.textBoxOutput.TabIndex = 3;
+            // 
+            // labelTime
+            // 
+            this.labelTime.Location = new System.Drawing.Point(319, 140);
+            this.labelTime.Name = "labelTime";
+            this.labelTime.Size = new System.Drawing.Size(100, 23);
+            this.labelTime.TabIndex = 4;
+            this.labelTime.Text = "Czas wykonania: ";
+            // 
+            // buttonBubbleSort
+            // 
+            this.buttonBubbleSort.Location = new System.Drawing.Point(10, 240);
+            this.buttonBubbleSort.Name = "buttonBubbleSort";
+            this.buttonBubbleSort.Size = new System.Drawing.Size(104, 24);
+            this.buttonBubbleSort.TabIndex = 5;
+            this.buttonBubbleSort.Text = "Bubble Sort";
+            // 
+            // buttonSelectionSort
+            // 
+            this.buttonSelectionSort.Location = new System.Drawing.Point(120, 240);
+            this.buttonSelectionSort.Name = "buttonSelectionSort";
+            this.buttonSelectionSort.Size = new System.Drawing.Size(104, 24);
+            this.buttonSelectionSort.TabIndex = 6;
+            this.buttonSelectionSort.Text = "Selection Sort";
+            // 
+            // buttonInsertionSort
+            // 
+            this.buttonInsertionSort.Location = new System.Drawing.Point(230, 240);
+            this.buttonInsertionSort.Name = "buttonInsertionSort";
+            this.buttonInsertionSort.Size = new System.Drawing.Size(104, 24);
+            this.buttonInsertionSort.TabIndex = 7;
+            this.buttonInsertionSort.Text = "Insertion Sort";
+            // 
+            // buttonMergeSort
+            // 
+            this.buttonMergeSort.Location = new System.Drawing.Point(338, 240);
+            this.buttonMergeSort.Name = "buttonMergeSort";
+            this.buttonMergeSort.Size = new System.Drawing.Size(104, 24);
+            this.buttonMergeSort.TabIndex = 8;
+            this.buttonMergeSort.Text = "Merge Sort";
+            // 
+            // buttonQuickSort
+            // 
+            this.buttonQuickSort.Location = new System.Drawing.Point(448, 240);
+            this.buttonQuickSort.Name = "buttonQuickSort";
+            this.buttonQuickSort.Size = new System.Drawing.Size(104, 24);
+            this.buttonQuickSort.TabIndex = 9;
+            this.buttonQuickSort.Text = "Quick Sort";
+            // 
+            // generateButton
+            // 
+            this.generateButton.Location = new System.Drawing.Point(322, 72);
+            this.generateButton.Name = "generateButton";
+            this.generateButton.Size = new System.Drawing.Size(75, 23);
+            this.generateButton.TabIndex = 10;
+            this.generateButton.Text = "Generate";
+            
+            
+            this.ClientSize = new System.Drawing.Size(575, 363);
+            this.Controls.Add(this.checkBoxGenerateNumbers);
+            this.Controls.Add(this.numericUpDownMax);
+            this.Controls.Add(this.textBoxInput);
+            this.Controls.Add(this.textBoxOutput);
+            this.Controls.Add(this.labelTime);
+            this.Controls.Add(this.buttonBubbleSort);
+            this.Controls.Add(this.buttonSelectionSort);
+            this.Controls.Add(this.buttonInsertionSort);
+            this.Controls.Add(this.buttonMergeSort);
+            this.Controls.Add(this.buttonQuickSort);
+            this.Controls.Add(this.generateButton);
+            this.Name = "SortAlgorithmForm";
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMax)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
-        textBoxInput.Multiline = true;
-        textBoxInput.Size = new System.Drawing.Size(200, 50);
-        textBoxInput.Location = new System.Drawing.Point(10, 70);
-
-        textBoxOutput.Multiline = true;
-        textBoxOutput.Size = new System.Drawing.Size(200, 50);
-        textBoxOutput.Location = new System.Drawing.Point(10, 140);
-        textBoxOutput.ReadOnly = true;
-
-        labelTime.Text = "Czas wykonania: ";
-        labelTime.Location = new System.Drawing.Point(10, 200);
-
-        radioButtonBubbleSort.Text = "Bubble Sort";
-        radioButtonBubbleSort.Location = new System.Drawing.Point(10, 240);
-
-        radioButtonSelectionSort.Text = "Selection Sort";
-        radioButtonSelectionSort.Location = new System.Drawing.Point(10, 260);
-
-        radioButtonInsertionSort.Text = "Insertion Sort";
-        radioButtonInsertionSort.Location = new System.Drawing.Point(10, 280);
-
-        radioButtonMergeSort.Text = "Merge Sort";
-        radioButtonMergeSort.Location = new System.Drawing.Point(10, 300);
-
-        radioButtonQuickSort.Text = "Quick Sort";
-        radioButtonQuickSort.Location = new System.Drawing.Point(10, 320);
-
-        generateButton.Text = "Generate";
-        generateButton.Location = new System.Drawing.Point(10, 350);
-        generateButton.Click += GenerateButton_Click;
-
-        sortButton.Text = "Sort";
-        sortButton.Location = new System.Drawing.Point(100, 350);
-        sortButton.Click += SortButton_Click;
-
-        // Dodanie kontrolek do formularza
-        Controls.Add(checkBoxGenerateNumbers);
-        Controls.Add(numericUpDownMax);
-        Controls.Add(textBoxInput);
-        Controls.Add(textBoxOutput);
-        Controls.Add(labelTime);
-        Controls.Add(radioButtonBubbleSort);
-        Controls.Add(radioButtonSelectionSort);
-        Controls.Add(radioButtonInsertionSort);
-        Controls.Add(radioButtonMergeSort);
-        Controls.Add(radioButtonQuickSort);
-        Controls.Add(generateButton);
-        Controls.Add(sortButton);
-    }
-
+        }
     private void CheckBoxGenerateNumbers_CheckedChanged(object sender, EventArgs e)
         {
             // Zablokowanie lub odblokowanie TextBoxa do wprowadzania danych

@@ -123,30 +123,48 @@ class SortAlgorithmForm : Form
         }
     }
 
-    private void SortButton_Click(object sender, EventArgs e)
-    {
-        stopwatch = Stopwatch.StartNew(); // Rozpoczęcie mierzenia czasu
+    private void MethodButton_Click(object sender, EventArgs e)
+        {
+            stopwatch = Stopwatch.StartNew();
 
-        if (radioButtonBubbleSort.Checked)
-        {
-            BubbleSortAlgorithm(numbers);
-        }
-        else if (radioButtonSelectionSort.Checked)
-        {
-            SelectionSortAlgorithm(numbers);
-        }
-        else if (radioButtonInsertionSort.Checked)
-        {
-            InsertSort(numbers);
-        }
-        else if (radioButtonMergeSort.Checked)
-        {
-            MergeSortAlgorithm(numbers);
-        }
-        else if (radioButtonQuickSort.Checked)
-        {
-            QuickSortAlgorithm(numbers, 0, numbers.Length - 1);
-        }
+            if (sender == generateButton)
+            {
+                // Tutaj umieść kod generowania liczb
+                if (checkBoxGenerateNumbers.Checked)
+                {
+                    // Generowanie losowych liczb
+                    numbers = Enumerable.Range(1, (int)numericUpDownMax.Value).Select(_ => random.Next()).ToArray();
+                }
+                else
+                {
+                    // Pobieranie liczb z textboxa i dzielenie ich na osobne liczby
+                    numbers = textBoxInput.Text.Split(' ').Select(int.Parse).ToArray();
+                }
+            }
+            else
+            {
+                // Tutaj umieść kod sortowania
+                if (sender == buttonBubbleSort)
+                {
+                    BubbleSortAlgorithm(numbers);
+                }
+                else if (sender == buttonSelectionSort)
+                {
+                    SelectionSortAlgorithm(numbers);
+                }
+                else if (sender == buttonInsertionSort)
+                {
+                    InsertSort(numbers);
+                }
+                else if (sender == buttonMergeSort)
+                {
+                    MergeSortAlgorithm(numbers);
+                }
+                else if (sender == buttonQuickSort)
+                {
+                    QuickSortAlgorithm(numbers, 0, numbers.Length - 1);
+                }
+            }
 
         stopwatch.Stop(); // Zakończenie mierzenia czasu
 

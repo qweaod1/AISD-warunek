@@ -14,13 +14,12 @@ class SortAlgorithmForm : Form
     private TextBox textBoxInput;
     private TextBox textBoxOutput;
     private Label labelTime;
-    private RadioButton radioButtonBubbleSort;
-    private RadioButton radioButtonSelectionSort;
-    private RadioButton radioButtonInsertionSort;
-    private RadioButton radioButtonMergeSort;
-    private RadioButton radioButtonQuickSort;
+    private Button buttonBubbleSort;
+    private Button buttonSelectionSort;
+    private Button buttonInsertionSort;
+    private Button buttonMergeSort;
+    private Button buttonQuickSort;
     private Button generateButton;
-    private Button sortButton;
 
     public SortAlgorithmForm()
     {

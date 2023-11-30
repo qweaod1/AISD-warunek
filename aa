@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
 namespace WindowsFormsApp3
 {
     public partial class Form1 : Form
@@ -15,41 +19,46 @@ namespace WindowsFormsApp3
                 A(dziecko);
             }
         }
+
         List<Wezel2> visited = new List<Wezel2>();
 
         void A(Wezel2 w, List<Wezel2> visited)
         {
-
             visited.Add(w);
             MessageBox.Show(w.wartosc.ToString());
 
             foreach (var somsiad in w.somsiedzi)
             {
-                if (!visited.Contains(w))
+                if (!visited.Contains(somsiad))
                     A(somsiad, visited);
             }
             visited.Clear();
         }
 
-
         void BFS(Wezel root)
         {
             Queue<Wezel> queue = new Queue<Wezel>();
+            HashSet<Wezel> visited = new HashSet<Wezel>();
             queue.Enqueue(root);
 
             while (queue.Count > 0)
             {
                 Wezel current = queue.Dequeue();
-                MessageBox.Show(current.wartosc.ToString());
 
-                foreach (var dziecko in current.dzieci)
+                if (!visited.Contains(current))
                 {
-                    queue.Enqueue(dziecko);
+                    MessageBox.Show(current.wartosc.ToString());
+                    visited.Add(current);
+
+                    foreach (var dziecko in current.dzieci)
+                    {
+                        queue.Enqueue(dziecko);
+                    }
                 }
             }
         }
 
-        private void TraverseGraph(object sender, EventArgs e)
+        private void TestGraphTraversals(object sender, EventArgs e)
         {
             var w1 = new Wezel(1);
             var w2 = new Wezel(2);
@@ -89,6 +98,26 @@ namespace WindowsFormsApp3
             MessageBox.Show("A Traversal:");
             A(w5b, visited);
         }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            var d = new DrzewoBinarne(5);
+            d.Add(3);
+            d.Add(8);
+
+            // Example usage of Znajdz method
+            int targetValue = 3;
+            Wezel3 foundNode = d.Znajdz(targetValue);
+
+            if (foundNode != null)
+            {
+                MessageBox.Show($"Node with value {targetValue} found!");
+            }
+            else
+            {
+                MessageBox.Show($"Node with value {targetValue} not found!");
+            }
+        }
     }
 
     public class Wezel
@@ -118,7 +147,6 @@ namespace WindowsFormsApp3
             w.somsiedzi.Add(this);
         }
     }
-   
 
     public class Wezel3
     {
@@ -131,76 +159,81 @@ namespace WindowsFormsApp3
         {
             this.wartosc = liczba;
         }
+
         public void Add(Wezel3 w)
         {
-            this.Add(w);
+            if (w.wartosc < this.wartosc)
+            {
+                if (this.lewedziecko == null)
+                {
+                    this.lewedziecko = w;
+                    w.rodzic = this;
+                }
+                else
+                {
+                    this.lewedziecko.Add(w);
+                }
+            }
+            else
+            {
+                if (this.prawedziecko == null)
+                {
+                    this.prawedziecko = w;
+                    w.rodzic = this;
+                }
+                else
+                {
+                    this.prawedziecko.Add(w);
+                }
+            }
         }
 
+        // New method Znajdz
+        public Wezel3 Znajdz(int liczba)
+        {
+            return Znajdz(this, liczba);
+        }
+
+        private Wezel3 Znajdz(Wezel3 current, int liczba)
+        {
+            if (current == null || current.wartosc == liczba)
+            {
+                return current;
+            }
+
+            if (liczba < current.wartosc)
+            {
+                return Znajdz(current.lewedziecko, liczba);
+            }
+            else
+            {
+                return Znajdz(current.prawedziecko, liczba);
+            }
+        }
     }
 
     public class DrzewoBinarne
     {
         Wezel3 korzen;
         int liczbaWezlow;
-        DrzewoBinarne(int liczba)
+
+        public DrzewoBinarne(int liczba)
         {
             this.korzen = new Wezel3(liczba);
             this.liczbaWezlow = 1;
         }
 
-        // 1 Węzeł3 Znajdź(int liczba)
-
-        // 2 Węzeł3 ZnajdźMin(Węzeł w)
-
-        // 3 Węzeł3 ZnajdźMax(Węzeł3 w)
-        
-        // 4 Węzeł3 Następnik(Węzeł3 w)
-
-        //      a) jeżeli jest prawe dziecko ZnajdźMin(w.praweDziecko) -> następnik
-        //      b) jeżeli nie ma prawego dziecka idź do góry tak długo aż wyjdziesz w rodzicu jako lewe dziecko Następnikiem jest rodzic
-        //      c) jeżeli nie ma prawego dziecka i nie zachodzi (b) ale już nie ma rodzica, bo jestem w korzeniu wtedy nie ma następnika
-
-        // 5 Węzeł3 Poprzednik(Węzeł3 w)
-
-        void Add(Wezel3 korzen, int liczba)
+        public void Add(int liczba)
         {
-            if (liczba < korzen.wartosc)
-            {
-                if (korzen.lewedziecko == null)
-                {
-                    korzen.lewedziecko = new Wezel3(liczba);
-                    korzen.lewedziecko.rodzic = korzen;
-                    liczbaWezlow++;
-                }
-                else
-                {
-                    Add(korzen.lewedziecko, liczba);
-                }
-            }
-            else if (liczba >= korzen.wartosc)
-            {
-                if (korzen.prawedziecko == null)
-                {
-                    korzen.prawedziecko = new Wezel3(liczba);
-                    korzen.prawedziecko.rodzic = korzen;
-                    liczbaWezlow++;
-                }
-                else
-                {
-                    Add(korzen.prawedziecko, liczba);
-                }
-            }
+            var dziecko = new Wezel3(liczba);
+            dziecko.rodzic = this.korzen;
+            this.korzen.Add(dziecko);
         }
-        public Wezel3 ZnajdzRodzica(int liczba)
-        {
-            var w = this.korzen;
-                while (true)
-            {
-                if (liczba < w.wartosc)
-                {
 
-                }
-            }
+        // New method Znajdz in DrzewoBinarne
+        public Wezel3 Znajdz(int liczba)
+        {
+            return this.korzen.Znajdz(liczba);
         }
     }
 }

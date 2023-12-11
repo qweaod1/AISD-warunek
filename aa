@@ -11,6 +11,11 @@ namespace WindowsFormsApp3
             InitializeComponent();
         }
 
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
+        }
+
         void A(Wezel w)
         {
             MessageBox.Show(w.wartosc.ToString());
@@ -212,6 +217,7 @@ namespace WindowsFormsApp3
         }
     }
 
+
     public class DrzewoBinarne
     {
         Wezel3 korzen;
@@ -230,10 +236,111 @@ namespace WindowsFormsApp3
             this.korzen.Add(dziecko);
         }
 
-        // New method Znajdz in DrzewoBinarne
-        public Wezel3 Znajdz(int liczba)
+        public Wezel3 ZnajdzMin(Wezel3 w)
         {
-            return this.korzen.Znajdz(liczba);
+            while (w.lewedziecko != null)
+            {
+                w = w.lewedziecko;
+            }
+            return w;
+        }
+
+        public Wezel3 Natepnik(Wezel3 w)
+        {
+            if (w.prawedziecko != null)
+                return this.ZnajdzMin(w.prawedziecko);
+            while (w.rodzic != null)
+            {
+                if (w.rodzic.lewedziecko == w)
+                    return w.rodzic;
+                w = w.rodzic;
+            }
+            return null;
+        }
+
+        public Wezel3 Znajdz(int targetValue)
+        {
+            return Znajdz(korzen, targetValue);
+        }
+
+        private Wezel3 Znajdz(Wezel3 current, int liczba)
+        {
+            if (current == null || current.wartosc == liczba)
+            {
+                return current;
+            }
+
+            if (liczba < current.wartosc)
+            {
+                return Znajdz(current.lewedziecko, liczba);
+            }
+            else
+            {
+                return Znajdz(current.prawedziecko, liczba);
+            }
+        }
+
+        public Wezel3 Usun(Wezel3 w)
+        {
+            if (w == null)
+            {
+                return null;
+            }
+
+            if (w.lewedziecko == null && w.prawedziecko == null)
+            {
+                if (w.rodzic != null)
+                {
+                    if (w.rodzic.lewedziecko == w)
+                    {
+                        w.rodzic.lewedziecko = null;
+                    }
+                    else if (w.rodzic.prawedziecko == w)
+                    {
+                        w.rodzic.prawedziecko = null;
+                    }
+                }
+                else
+                {
+                    korzen = null;
+                }
+            }
+            else if (w.lewedziecko == null)
+            {     
+                ReplaceNode(w, w.prawedziecko);
+            }
+            else if (w.prawedziecko == null)
+            {
+                ReplaceNode(w, w.lewedziecko);
+            }
+            else
+            {
+                Wezel3 successor = ZnajdzMin(w.prawedziecko);
+                w.wartosc = successor.wartosc;
+                w.prawedziecko = Usun(successor);
+            }
+
+            return w;
+        }
+
+        private void ReplaceNode(Wezel3 target, Wezel3 replacement)
+        {
+            if (target.rodzic != null)
+            {
+                if (target.rodzic.lewedziecko == target)
+                {
+                    target.rodzic.lewedziecko = replacement;
+                }
+                else if (target.rodzic.prawedziecko == target)
+                {
+                    target.rodzic.prawedziecko = replacement;
+                }
+            }
+
+            if (replacement != null)
+            {
+                replacement.rodzic = target.rodzic;
+            }
         }
     }
 }

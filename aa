@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace WindowsFormsApp3
 {
@@ -306,7 +309,7 @@ namespace WindowsFormsApp3
                 }
             }
             else if (w.lewedziecko == null)
-            {     
+            {
                 ReplaceNode(w, w.prawedziecko);
             }
             else if (w.prawedziecko == null)
@@ -318,6 +321,52 @@ namespace WindowsFormsApp3
                 Wezel3 successor = ZnajdzMin(w.prawedziecko);
                 w.wartosc = successor.wartosc;
                 w.prawedziecko = Usun(successor);
+            }
+
+            return w;
+        }
+        public Wezel3 UsunGdy0Dzieci(Wezel3 w)
+        {
+            if (w.rodzic == null)
+            {
+                this.korzen = null;
+                return w;
+            }
+
+            if (w.rodzic.lewedziecko == w)
+                w.rodzic.lewedziecko = null;
+            else
+                w.rodzic.prawedziecko = null;
+
+            w.rodzic = null;
+            return w;
+        }
+
+        public Wezel3 UsunGdy1Dzieci(Wezel3 w)
+        {
+            Wezel3 dziecko = null;
+            if(w.lewedziecko != null)
+            {
+                dziecko = w.lewedziecko;
+                w.lewedziecko = null;
+            }
+            else
+            {
+                dziecko = w.prawedziecko;
+                w.prawedziecko = null;
+            }
+            dziecko.rodzic = w.rodzic;
+            if (w.rodzic == null)
+                this.korzen = dziecko;
+            else
+            {
+                if (w.rodzic.lewedziecko == w)
+                {
+                    w.rodzic.lewedziecko = dziecko;
+                }
+                else
+                    w.rodzic.prawedziecko = dziecko;
+                w.rodzic = null;
             }
 
             return w;
@@ -342,5 +391,5 @@ namespace WindowsFormsApp3
                 replacement.rodzic = target.rodzic;
             }
         }
+        
     }
-}

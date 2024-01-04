@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace WindowsFormsApp3
 {
@@ -345,7 +347,7 @@ namespace WindowsFormsApp3
         public Wezel3 UsunGdy1Dzieci(Wezel3 w)
         {
             Wezel3 dziecko = null;
-            if(w.lewedziecko != null)
+            if (w.lewedziecko != null)
             {
                 dziecko = w.lewedziecko;
                 w.lewedziecko = null;
@@ -371,6 +373,14 @@ namespace WindowsFormsApp3
 
             return w;
         }
+        public Wezel3 UsunGdy2Dzieci(Wezel3 w)
+        {
+            Wezel3 zamiennik = this.Natepnik(w);
+            zamiennik = this.Usun(zamiennik);
+
+
+            return w;
+        }
 
         private void ReplaceNode(Wezel3 target, Wezel3 replacement)
         {
@@ -391,5 +401,59 @@ namespace WindowsFormsApp3
                 replacement.rodzic = target.rodzic;
             }
         }
-        
+
+
     }
+    public class Krawedz
+    {
+        public int waga;
+        public Wezel3 poczatek;
+        public Wezel3 koniec;
+        public Krawedz(int waga,Wezel3 poczatek, Wezel3 koniec)
+        {
+            this.waga = waga;
+            this.poczatek = poczatek;
+            this.koniec = koniec;
+        }
+    }
+    public class Graf
+    {
+        public List<Wezel3> Wezly = new List<Wezel3>();
+        public List<Krawedz> ListaKrawedzie = new List<Krawedz>();
+        public Graf(Krawedz k)
+        {
+            this.ListaKrawedzie.Add(k);
+            this.ListaKrawedzie.OrderBy<k => k.waga >;
+        }
+        
+        int Sprawdze(Krawedz k)
+        {
+            int wynik = 0;
+            if (!Wezly.Contains(k.poczatek)) {
+                wynik++;
+            }
+            if (!Wezly.Contains(k.koniec))
+            {
+                wynik++;
+            }
+            return wynik;
+        }
+        public void Add(Krawedz k) {
+            this.ListaKrawedzie.Add(k);
+            if (!this.Wezly.Contains(k.poczatek)) {
+                this.Wezly.Add(k.poczatek);
+            }
+            if (!this.Wezly.Contains(k.koniec))
+            {
+                this.Wezly.Add(k.koniec);
+            }
+        }
+        public void Join(Graf g) {
+            foreach (var k in g.ListaKrawedzie) {
+                this.Add(k);
+            }
+        }
+
+    }
+}
+

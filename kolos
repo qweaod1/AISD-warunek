@@ -1,1 +1,17 @@
 jedno akcja drzewa przejścia dikstra podciąg kruskal
+
+kolejka pryiorytetowa jak na sorze pierwszy jest ten o najwyższym priorytecie +
+
+Lista jednokierunkowa
+posiada głowe i ogon oraz count zawiera odnośnik do swojego następnika ale nie do poprzednika gdy chcemy dodać nowy element to 
+
+
+dikstra 
+q-niezrobione s-zrobione(te o najmnijeszym koście dojścia) poprzednik tabela
+
+kruskal
+krawędzie według wagi rosnącej
+tabela krawędzi plus wierzchołki jak wierzchołki nie są połączone tworzymy nową tabele
+
+bez bombelkowego
+merge i quick
